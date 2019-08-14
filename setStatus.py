@@ -13,11 +13,9 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 SPREADSHEET_ID = SPREADSHEET_ID
 RANGE_NAME = 'Sheet1!A1:A1'
+value_input_option = "RAW"
 
 def main():
-    """Shows basic usage of the Sheets API.
-    Prints values from a sample spreadsheet.
-    """
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -41,9 +39,19 @@ def main():
 
     # Call the Sheets API
     sheet = service.spreadsheets()
-    result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
-                                range=RANGE_NAME).execute()
-    values = result.get('values', [])
+    values = [
+    [
+        # Cell values ...
+    ],
+    # Additional rows ...
+    ]
+    body = {
+        'values': values
+    }
+    result = service.spreadsheets().values().update(
+        spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME,
+        valueInputOption=value_input_option, body=body).execute()
+    print('{0} cells updated.'.format(result.get('updatedCells')))
 
     if not values:
         print('No data found.')
