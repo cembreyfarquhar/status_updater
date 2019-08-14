@@ -2,4 +2,4 @@ env.py
 credentials.json
 secret.json
 token.pickle
-__pycache__/
+/__pycache__
