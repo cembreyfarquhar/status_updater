@@ -1,10 +1,11 @@
 from __future__ import print_function
 import pickle
 import os.path
+import sys
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 # pull in env variable
-from env import SPREADSHEET_ID
+from env import SPREADSHEET_ID, RANGE_NAME, VALUE_INPUT_OPTION
 from google.auth.transport.requests import Request
 
 # If modifying these scopes, delete the file token.pickle.
@@ -12,8 +13,9 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 
 SPREADSHEET_ID = SPREADSHEET_ID
-RANGE_NAME = 'Sheet1!A1:A1'
-value_input_option = "RAW"
+RANGE_NAME = RANGE_NAME
+value_input_option = VALUE_INPUT_OPTION
+STATUS = sys.argv[1]
 
 def main():
     creds = None
@@ -41,7 +43,7 @@ def main():
     sheet = service.spreadsheets()
     values = [
     [
-        "HEY"
+        STATUS
     ],
     # Additional rows ...
     ]
@@ -51,7 +53,7 @@ def main():
     result = service.spreadsheets().values().update(
         spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME,
         valueInputOption=value_input_option, body=body).execute()
-    print('{0} cells updated.'.format(result.get('updatedCells')))
+    print('Status Updated: '.format(result.get('updatedCells')))
 
     if not values:
         print('No data found.')
