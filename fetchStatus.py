@@ -3,15 +3,16 @@ import pickle
 import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
-# from env import spreadsheetid
+# pull in env variable
+from env import SPREADSHEET_ID
 from google.auth.transport.requests import Request
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
-# The ID and range of a sample spreadsheet.
-SAMPLE_SPREADSHEET_ID = "1lMuBDKipndBRcArFoTj29r3SE1JHCOJ7nM_om5btbnI"
-SAMPLE_RANGE_NAME = 'Sheet1!A1:A1'
+
+SPREADSHEET_ID = SPREADSHEET_ID
+RANGE_NAME = 'Sheet1!A1:A1'
 
 def main():
     """Shows basic usage of the Sheets API.
@@ -40,8 +41,8 @@ def main():
 
     # Call the Sheets API
     sheet = service.spreadsheets()
-    result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
-                                range=SAMPLE_RANGE_NAME).execute()
+    result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
+                                range=RANGE_NAME).execute()
     values = result.get('values', [])
 
     if not values:
